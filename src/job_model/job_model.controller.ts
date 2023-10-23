@@ -53,14 +53,14 @@ export class JobModelController {
   }
 
   @Delete(':id')
-deleteJobModel(@Param('id') JobModelId: string): boolean {
-  const [, index] = this.findJobModel(JobModelId);
-  if (index !== -1) {
+  deleteJobModel(@Param('id') JobModelId: string): boolean {
+    const [, index] = this.findJobModel(JobModelId);
+    if (index !== -1) {
     this.jobModels.splice(index, 1);
-    return true;
+      return true;
   }
-  return false;
-}
+    return false;
+  }
 
   private findJobModel(id: string): [JobModel | undefined, number] {
     const index = this.jobModels.findIndex((jobModel) => jobModel.id === id);
