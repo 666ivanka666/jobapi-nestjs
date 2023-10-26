@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Param, Post, Put, NotFoundException } fr
 import { JobModelService } from './job_model.service';
 import { JobModelDto } from './dto';
 import { JobModel } from './type';
+import { IdDto } from './common/decorators';
 
 @Controller('jobs')
 export class JobModelController {
@@ -52,23 +53,29 @@ export class JobModelController {
     return job;
   }
 
-  @Delete(':id')
-  deleteJobModel(@Param('id') JobModelId: string): boolean {
-    const [, index] = this.findJobModel(JobModelId);
-    if (index !== -1) {
-    this.jobModels.splice(index, 1);
-      return true;
-  }
-    return false;
-  }
+  // @Delete(':id')
+  // deleteJobModel(@Param('id') JobModelId: string): boolean {
+  //   const [, index] = this.findJobModel(JobModelId);
+  //   if (index !== -1) {
+  //   this.jobModels.splice(index, 1);
+  //     return true;
+  // }
+  //   return false;
+  // }
 
-  private findJobModel(id: string): [JobModel | undefined, number] {
-    const index = this.jobModels.findIndex((jobModel) => jobModel.id === id);
-    if (index === -1) {
-      return [undefined, -1];
-    }
-    return [this.jobModels[index], index];
+  // private findJobModel(id: string): [JobModel | undefined, number] {
+  //   const index = this.jobModels.findIndex((jobModel) => jobModel.id === id);
+  //   if (index === -1) {
+  //     return [undefined, -1];
+  //   }
+  //   return [this.jobModels[index], index];
+  // }
+  @Delete(':id')
+  deleteJobModelById(@Param() params: IdDto): {
+    message: string;
+  } {
+    this.jobModelService.deleteJobModel(params.id);
+    return { message: 'Uspjesno obrisano' };
   }
-  
   
 }
