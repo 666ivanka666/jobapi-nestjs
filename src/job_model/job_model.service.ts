@@ -6,7 +6,7 @@ import { JobModel } from './type';
 export class JobModelService {
   private jobModels: JobModel[] = [];
 
-  insertJobModel(name: string, description: string, validTo: number, active: boolean): string {
+  insertJobModel(name: string, description: string, validTo: Date, active: boolean): string {
     const id = uuidv4();
     this.jobModels.push(new JobModel(id, name, description, validTo, active));
     return id;
@@ -25,7 +25,7 @@ export class JobModelService {
     id: string, 
     name: string, 
     description: string, 
-    validTo: number, 
+    validTo: Date, 
     active: boolean
   ): JobModel {
     const [jobModel, index] = this.findJobModel(id);

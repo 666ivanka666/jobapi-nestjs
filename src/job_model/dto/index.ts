@@ -8,7 +8,7 @@ export class JobModelDto {
   description: string;
 
   @IsDate()
-  validTo: number; 
+  validTo: Date; 
 
   @IsBoolean()
   active: boolean;
