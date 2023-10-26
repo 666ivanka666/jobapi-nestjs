@@ -11,6 +11,7 @@ export class JobModelController {
 
   @Post()
   addJobModel(@Body() body: JobModelDto): { id: string } {
+    const validTo = new Date(body.validTo);
     const generatedId = this.jobModelService.insertJobModel(
       body.name,
       body.description,
