@@ -58,7 +58,7 @@ export class JobModelService {
     this.jobModels.splice(index, 1);
   }
 
-  private findJobModel(id: string): [JobModel | undefined, number] {
+  findJobModel(id: string): [JobModel | undefined, number] {
     const JobModelIndex = this.jobModels.findIndex((jobModel) => jobModel.id === id);
     if (JobModelIndex === -1) {
       return [undefined, -1];
