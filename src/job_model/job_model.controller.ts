@@ -2,16 +2,14 @@ import { Body, Controller, Delete, Get, Param, Post, Put, NotFoundException } fr
 import { JobModelService } from './job_model.service';
 import { JobModelDto } from './dto';
 import { JobModel } from './type';
-import { IdDto } from './common/decorators';
+import { IdDto, NameDto } from '../common/decorators';
 
 @Controller('jobs')
 export class JobModelController {
-  jobModels: any;
   constructor(private readonly jobModelService: JobModelService) {}
 
   @Post()
   addJobModel(@Body() body: JobModelDto): { id: string } {
-    const validTo = new Date(body.validTo);
     const generatedId = this.jobModelService.insertJobModel(
       body.name,
       body.description,
@@ -27,56 +25,26 @@ export class JobModelController {
   }
 
   @Get(':id')
-  getJobModelById(@Param('id') id: string): JobModel {
-    const job = this.jobModelService.getSingleJobModel(id);
-    if (!job) {
-      throw new NotFoundException(`Posao sa ID ${id} nije nađen`);
-    }
-    return job;
+  getJobModelById(@Param() params: IdDto): JobModel {
+    const { id } = params
+    return this.jobModelService.getSingleJobModel(id);
   }
 
- 
   @Get('name/:name')
-  getJobsByName(@Param('name') name: string): JobModel[] {
-    if (!name) {
-      throw new NotFoundException('Naziv posla je obavezan.');
-    }
-  
+  getJobsByName(@Param() params: NameDto): JobModel[] {
+    const { name } = params
     return this.jobModelService.getJobModel().filter((job) => job.name === name);
   }
+
   
   @Put(':id')
-  updateJob(@Param('id') id: string, @Body() body: JobModelDto): JobModel {
-    const job = this.jobModelService.updateJobModel(id, body.name, body.description, body.validTo, body.active);
-    if (!job) {
-      throw new NotFoundException(`Posao sa ID ${id} nije nađen`);
-    }
-    return job;
+  updateJob(@Param() params: IdDto, @Body() body: JobModelDto): JobModel {
+    const { id } = params
+    return this.jobModelService.updateJobModel(id, body.name, body.description, body.validTo, body.active);
   }
 
-  // @Delete(':id')
-  // deleteJobModel(@Param('id') JobModelId: string): boolean {
-  //   const [, index] = this.findJobModel(JobModelId);
-  //   if (index !== -1) {
-  //   this.jobModels.splice(index, 1);
-  //     return true;
-  // }
-  //   return false;
-  // }
-
-  // private findJobModel(id: string): [JobModel | undefined, number] {
-  //   const index = this.jobModels.findIndex((jobModel) => jobModel.id === id);
-  //   if (index === -1) {
-  //     return [undefined, -1];
-  //   }
-  //   return [this.jobModels[index], index];
-  // }
   @Delete(':id')
-  deleteJobModelById(@Param() params: IdDto): {
-    message: string;
-  } {
-    this.jobModelService.deleteJobModel(params.id);
-    return { message: 'Uspjesno obrisano' };
+  deleteJobModelById(@Param() params: IdDto): { message: string; } {
+    return this.jobModelService.deleteJobModel(params.id);
   }
-  
 }

@@ -5,3 +5,9 @@ export class IdDto {
   @IsNotEmpty()
   id: string;
 }
+
+export class NameDto {
+  @IsString()
+  @IsNotEmpty()
+  name: string;
+}

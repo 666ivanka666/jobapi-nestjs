@@ -3,7 +3,7 @@ export class JobModel {
       public id: string,
       public name: string,
       public description: string,
-      public validTo:Date, 
+      public validTo:string, 
       public active: boolean
     ) {}
   }

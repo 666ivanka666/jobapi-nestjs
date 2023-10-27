@@ -1,4 +1,4 @@
-import { IsString, IsDate, IsBoolean } from 'class-validator';
+import { IsString, IsBoolean, IsDateString } from 'class-validator';
 
 export class JobModelDto {
   @IsString()
@@ -7,8 +7,8 @@ export class JobModelDto {
   @IsString()
   description: string;
 
-  @IsDate()
-  validTo: Date; 
+  @IsDateString()
+  validTo: string; 
 
   @IsBoolean()
   active: boolean;
